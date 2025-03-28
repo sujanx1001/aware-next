@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { authService } from '@/services/authService';
 
 interface AuthModalProps {
   open: boolean;
@@ -19,37 +20,52 @@ const AuthModal = ({ open, onOpenChange }: AuthModalProps) => {
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState<'user' | 'business'>('user');
   
   const { toast } = useToast();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await authService.login(loginEmail, loginPassword);
       toast({
         title: "Welcome back!",
         description: "You have successfully logged in.",
       });
       onOpenChange(false);
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: "Login failed",
+        description: error instanceof Error ? error.message : "An error occurred",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleRegister = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
+    try {
+      await authService.register(registerName, registerEmail, role);
       toast({
         title: "Account created",
         description: "Your account has been created successfully.",
       });
       onOpenChange(false);
-    }, 1000);
+    } catch (error) {
+      toast({
+        title: "Registration failed",
+        description: error instanceof Error ? error.message : "An error occurred",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -140,6 +156,35 @@ const AuthModal = ({ open, onOpenChange }: AuthModalProps) => {
                   onChange={(e) => setRegisterPassword(e.target.value)}
                   required
                 />
+              </div>
+              <div className="space-y-2">
+                <Label>Account Type</Label>
+                <div className="flex space-x-4">
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      id="user-role"
+                      name="role"
+                      value="user"
+                      checked={role === 'user'}
+                      onChange={() => setRole('user')}
+                      className="mr-2"
+                    />
+                    <Label htmlFor="user-role">Individual</Label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      id="business-role"
+                      name="role"
+                      value="business"
+                      checked={role === 'business'}
+                      onChange={() => setRole('business')}
+                      className="mr-2"
+                    />
+                    <Label htmlFor="business-role">Business</Label>
+                  </div>
+                </div>
               </div>
               <Button type="submit" className="w-full hero-gradient border-0" disabled={isLoading}>
                 {isLoading ? "Creating account..." : "Create Account"}

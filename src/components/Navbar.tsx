@@ -2,14 +2,23 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Menu, X, Users, Briefcase, Heart, LogIn } from 'lucide-react';
+import { Menu, X, Users, Briefcase, Heart, LogIn, User, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import AuthModal from './AuthModal';
+import { useAuth } from '@/contexts/AuthContext';
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from '@/components/ui/dropdown-menu';
 
 const Navbar = () => {
   const isMobile = useIsMobile();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const { user, isLoggedIn, logout } = useAuth();
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -17,6 +26,11 @@ const Navbar = () => {
 
   const openAuthModal = () => {
     setAuthModalOpen(true);
+    setMobileMenuOpen(false);
+  };
+
+  const handleLogout = () => {
+    logout();
     setMobileMenuOpen(false);
   };
 
@@ -47,10 +61,34 @@ const Navbar = () => {
                 About Us
               </Link>
             </div>
-            <Button onClick={openAuthModal} className="flex items-center gap-1" variant="default">
-              <LogIn size={16} />
-              Sign In
-            </Button>
+            
+            {isLoggedIn ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <User size={16} />
+                    {user?.name}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem>
+                    <Link to="/profile" className="flex items-center w-full">
+                      Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+                    <LogOut size={16} className="mr-2" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button onClick={openAuthModal} className="flex items-center gap-1" variant="default">
+                <LogIn size={16} />
+                Sign In
+              </Button>
+            )}
           </nav>
         ) : (
           <div className="flex items-center">
@@ -84,10 +122,24 @@ const Navbar = () => {
               <Users size={18} />
               About Us
             </Link>
-            <Button onClick={openAuthModal} className="w-full justify-center" variant="default">
-              <LogIn size={18} className="mr-2" />
-              Sign In
-            </Button>
+            
+            {isLoggedIn ? (
+              <>
+                <Link to="/profile" className="font-medium p-2 hover:bg-muted rounded-md flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                  <User size={18} />
+                  Profile
+                </Link>
+                <Button onClick={handleLogout} variant="destructive" className="w-full justify-center">
+                  <LogOut size={18} className="mr-2" />
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <Button onClick={openAuthModal} className="w-full justify-center" variant="default">
+                <LogIn size={18} className="mr-2" />
+                Sign In
+              </Button>
+            )}
           </nav>
         </div>
       )}
