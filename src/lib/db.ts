@@ -161,8 +161,9 @@ class MemoryStorage {
 }
 
 // Create database instance
+// The key fix: Pass the defaultData to the Low constructor instead of creating an adapter without it
 const adapter = new MemoryStorage(defaultData);
-export const db = new Low<Database>(adapter);
+export const db = new Low<Database>(adapter, defaultData);  // Added the defaultData as second parameter
 
 // Database helper functions
 export async function getCauses() {
