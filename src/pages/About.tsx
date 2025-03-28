@@ -68,10 +68,10 @@ const About = () => {
             <div className="flex flex-col md:flex-row gap-8 items-center">
               <div className="md:w-1/2 space-y-4">
                 <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
-                  About <span className="text-transparent bg-clip-text hero-gradient">ACS Social Impact</span>
+                  About <span className="text-transparent bg-clip-text hero-gradient">Team Social Impact</span>
                 </h1>
                 <p className="text-lg text-muted-foreground">
-                  Advanced Consulting Services (ACS) is dedicated to bridging the gap between social causes and businesses to create meaningful change in communities across Australia.
+                  Team Social Impact is dedicated to bridging the gap between social causes and businesses to create meaningful change in communities across Australia.
                 </p>
                 <div className="pt-4">
                   <Button asChild className="hero-gradient border-0 text-white">

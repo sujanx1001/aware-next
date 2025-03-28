@@ -13,9 +13,9 @@ const Footer = () => {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <div>
-            <h3 className="text-lg font-semibold mb-3">About ACS Social Impact</h3>
+            <h3 className="text-lg font-semibold mb-3">About Team Social Impact</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              Advanced Consulting Services is dedicated to raising awareness about social causes
+              Team Social Impact is dedicated to raising awareness about social causes
               and providing a platform where small businesses can grow and thrive.
             </p>
             <div className="flex space-x-3">
@@ -88,7 +88,7 @@ const Footer = () => {
               <li className="flex items-center">
                 <Mail size={18} className="mr-2 flex-shrink-0 text-primary" />
                 <span className="text-muted-foreground">
-                  info@acssocialimpact.com
+                  info@teamsocialimpact.com
                 </span>
               </li>
             </ul>
@@ -116,7 +116,7 @@ const Footer = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <p className="text-xs text-muted-foreground order-2 sm:order-1 mt-4 sm:mt-0">
-            © {year} Advanced Consulting Services. All rights reserved.
+            © {year} Team Social Impact. All rights reserved.
           </p>
           <div className="flex gap-4 order-1 sm:order-2">
             <Link to="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">
