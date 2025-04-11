@@ -15,7 +15,7 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-3">About CauseConnect</h3>
             <p className="text-sm text-muted-foreground mb-4">
-              CauseConnect is dedicated to raising awareness about social causes
+              CauseConnect is dedicated to connecting people through causes, raising awareness about social issues,
               and providing a platform where small businesses can grow and thrive.
             </p>
             <div className="flex space-x-3">
@@ -124,7 +124,7 @@ const Footer = () => {
 
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <p className="text-xs text-muted-foreground order-2 sm:order-1 mt-4 sm:mt-0">
-            © {year} CauseConnect. All rights reserved.
+            © {year} CauseConnect - Connecting people through causes. All rights reserved.
           </p>
           <div className="flex gap-4 order-1 sm:order-2">
             <Link to="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">

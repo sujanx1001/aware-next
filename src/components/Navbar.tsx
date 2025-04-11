@@ -38,8 +38,8 @@ const Navbar = () => {
     <header className="sticky top-0 bg-white bg-opacity-95 backdrop-blur-sm z-50 border-b shadow-sm">
       <div className="container mx-auto flex items-center justify-between p-4">
         <Link to="/" className="flex items-center space-x-2">
-          <span className="bg-primary text-white font-bold p-2 rounded-md">Team</span>
-          <span className="font-bold text-xl text-foreground hidden sm:inline">Social Impact</span>
+          <span className="bg-primary text-white font-bold p-2 rounded-md">CC</span>
+          <span className="font-bold text-xl text-foreground hidden sm:inline">CauseConnect</span>
         </Link>
 
         {!isMobile ? (

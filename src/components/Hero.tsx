@@ -13,7 +13,7 @@ const Hero = () => {
           <div className="flex flex-col justify-center space-y-4">
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                Raise Awareness, <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-teal">Drive Change</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue to-brand-teal">Connecting people through causes</span>
               </h1>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">
                 Join our platform to raise awareness, support social causes, and help small businesses thrive.
