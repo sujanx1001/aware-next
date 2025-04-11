@@ -1,11 +1,14 @@
 
-import { ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowRight, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 import CauseCard from './CauseCard';
+import { Badge } from '@/components/ui/badge';
 
 const FeaturedCauses = () => {
   // Sample data for featured causes
-  const causes = [
+  const allCauses = [
     {
       id: 1,
       title: "Clean Ocean Initiative",
@@ -49,27 +52,75 @@ const FeaturedCauses = () => {
       target: 12000,
       current: 9800,
       featured: false
+    },
+    {
+      id: 5,
+      title: "Animal Shelter Support",
+      description: "Help us provide shelter, food and medical care to abandoned and rescued animals.",
+      image: "https://images.unsplash.com/photo-1548681528-6a5c45b66b42?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      category: "Animals",
+      supporters: 722,
+      target: 6000,
+      current: 3400,
+      featured: true
     }
   ];
+
+  // State for active category filter
+  const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  
+  // Get all unique categories
+  const categories = Array.from(new Set(allCauses.map(cause => cause.category)));
+  
+  // Filter causes based on active category
+  const filteredCauses = activeCategory 
+    ? allCauses.filter(cause => cause.category === activeCategory)
+    : allCauses;
 
   return (
     <section className="py-16 px-4">
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold mb-3">Featured Causes</h2>
-            <p className="text-muted-foreground max-w-2xl">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Featured Campaigns</h2>
+            <p className="text-muted-foreground max-w-2xl mb-4">
               Discover and support impactful social initiatives that are making a difference in our communities.
             </p>
           </div>
-          <Button variant="ghost" className="mt-4 md:mt-0 group">
-            View All Causes
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+          <Button variant="ghost" className="mt-4 md:mt-0 group" asChild>
+            <Link to="/causes">
+              View All Campaigns
+              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
           </Button>
         </div>
         
+        {/* Category filter */}
+        <div className="flex flex-wrap gap-2 mb-6 items-center">
+          <span className="flex items-center text-sm font-medium mr-2">
+            <Filter className="mr-1 h-4 w-4" /> Filter by:
+          </span>
+          <Badge 
+            variant={activeCategory === null ? "default" : "outline"}
+            className="cursor-pointer"
+            onClick={() => setActiveCategory(null)}
+          >
+            All
+          </Badge>
+          {categories.map(category => (
+            <Badge
+              key={category}
+              variant={activeCategory === category ? "default" : "outline"}
+              className="cursor-pointer"
+              onClick={() => setActiveCategory(category)}
+            >
+              {category}
+            </Badge>
+          ))}
+        </div>
+        
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {causes.map((cause) => (
+          {filteredCauses.map((cause) => (
             <CauseCard
               key={cause.id}
               title={cause.title}
