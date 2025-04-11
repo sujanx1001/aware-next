@@ -2,35 +2,53 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Users, Globe, Heart, Award, Building } from 'lucide-react';
+import { ArrowRight, Users, Globe, Heart, Award, Building, Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const About = () => {
   // Team members data
   const teamMembers = [
     {
-      name: "Jane Smith",
-      role: "Founder & CEO",
+      name: "Netra",
+      role: "Project Manager",
+      secondaryRole: "Developer",
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
-      description: "Jane founded ACS with a vision to connect social causes with businesses that care."
     },
     {
-      name: "Michael Chen",
-      role: "Chief Operating Officer",
+      name: "Nabin Adhikari",
+      role: "Developer/Programmer",
+      secondaryRole: "Database Developer",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
-      description: "Michael oversees all operations and ensures our platform runs efficiently."
     },
     {
-      name: "Priya Sharma",
-      role: "Head of Social Impact",
+      name: "Munia",
+      role: "Front End Designer",
+      secondaryRole: "Tester",
       image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
-      description: "Priya works directly with causes to maximize their social impact and reach."
     },
     {
-      name: "David Wilson",
-      role: "Business Relations",
+      name: "Sujan",
+      role: "Database Developer",
+      secondaryRole: "Network Designer",
+      image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
+    },
+    {
+      name: "Dipesh",
+      role: "Data Analyst",
+      secondaryRole: "Front End Designer",
+      image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
+    },
+    {
+      name: "Safal",
+      role: "Tester",
+      secondaryRole: "Data Analyst",
       image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
-      description: "David builds relationships with businesses looking to make a positive impact."
+    },
+    {
+      name: "Bharat",
+      role: "Network Designer",
+      secondaryRole: "Project Manager",
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=256&q=80",
     }
   ];
 
@@ -68,11 +86,25 @@ const About = () => {
             <div className="flex flex-col md:flex-row gap-8 items-center">
               <div className="md:w-1/2 space-y-4">
                 <h1 className="text-3xl md:text-5xl font-bold tracking-tight">
-                  About <span className="text-transparent bg-clip-text hero-gradient">Team Social Impact</span>
+                  About <span className="text-transparent bg-clip-text hero-gradient">CauseConnect</span>
                 </h1>
                 <p className="text-lg text-muted-foreground">
-                  Team Social Impact is dedicated to bridging the gap between social causes and businesses to create meaningful change in communities across Australia.
+                  CauseConnect is dedicated to bridging the gap between social causes and businesses to create meaningful change in communities across Australia.
                 </p>
+                <div className="flex space-x-4 mt-4">
+                  <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Facebook size={22} />
+                  </a>
+                  <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Twitter size={22} />
+                  </a>
+                  <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Instagram size={22} />
+                  </a>
+                  <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-muted-foreground hover:text-primary transition-colors">
+                    <Linkedin size={22} />
+                  </a>
+                </div>
                 <div className="pt-4">
                   <Button asChild className="hero-gradient border-0 text-white">
                     <Link to="/causes">
@@ -124,7 +156,7 @@ const About = () => {
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold mb-4">Our Team</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Meet the passionate individuals behind ACS Social Impact who are dedicated to creating positive change.
+                Meet the passionate individuals behind CauseConnect who are dedicated to creating positive change.
               </p>
             </div>
             
@@ -140,8 +172,8 @@ const About = () => {
                   </div>
                   <div className="p-4">
                     <h3 className="font-semibold text-lg">{member.name}</h3>
-                    <p className="text-primary font-medium text-sm mb-2">{member.role}</p>
-                    <p className="text-sm text-muted-foreground">{member.description}</p>
+                    <p className="text-primary font-medium text-sm">{member.role}</p>
+                    <p className="text-secondary text-xs mb-2">{member.secondaryRole}</p>
                   </div>
                 </div>
               ))}
