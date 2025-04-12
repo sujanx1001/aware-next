@@ -1,7 +1,9 @@
 
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Megaphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import BusinessCard from './BusinessCard';
+import { Link } from 'react-router-dom';
 
 const BusinessShowcase = () => {
   // Sample data for businesses
@@ -48,6 +50,40 @@ const BusinessShowcase = () => {
     }
   ];
 
+  // Sample data for advertisements
+  const advertisements = [
+    {
+      id: 1,
+      name: "Local Farm Collective",
+      description: "Join our community of sustainable farmers! Weekly deliveries of fresh, seasonal produce grown with love.",
+      image: "https://images.unsplash.com/photo-1615317779547-2f9b28150053?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      category: "Food & Agriculture",
+      location: "Adelaide",
+      rating: 4.6,
+      isAd: true
+    },
+    {
+      id: 2,
+      name: "Artisan Craft Market",
+      description: "Monthly market featuring local artisans and handmade goods. Support small businesses and find unique gifts!",
+      image: "https://images.unsplash.com/photo-1607348585099-d0261ae7dc5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      category: "Art & Crafts",
+      location: "Hobart",
+      rating: 4.9,
+      isAd: true
+    },
+    {
+      id: 3,
+      name: "Sustainable Energy Solutions",
+      description: "Custom solar panel installations for homes and businesses. Make the switch to renewable energy today.",
+      image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+      category: "Technology",
+      location: "Darwin",
+      rating: 4.7,
+      isAd: true
+    }
+  ];
+
   return (
     <section className="py-16 px-4 bg-muted/30">
       <div className="container mx-auto">
@@ -58,26 +94,62 @@ const BusinessShowcase = () => {
               Discover and support small businesses that are making a positive impact in their communities.
             </p>
           </div>
-          <Button variant="ghost" className="mt-4 md:mt-0 group">
-            View All Businesses
-            <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-3 mt-4 md:mt-0">
+            <Button variant="outline" className="flex items-center gap-2" asChild>
+              <Link to="/business/promote">
+                Add Your Business
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button variant="outline" className="flex items-center gap-2 border-brand-purple/30 text-brand-purple hover:bg-brand-purple/5" asChild>
+              <Link to="/business/advertise">
+                <Megaphone className="h-4 w-4" />
+                Create Ad Campaign
+              </Link>
+            </Button>
+          </div>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {businesses.map((business) => (
-            <BusinessCard
-              key={business.id}
-              name={business.name}
-              description={business.description}
-              image={business.image}
-              category={business.category}
-              location={business.location}
-              rating={business.rating}
-              featured={business.featured}
-            />
-          ))}
-        </div>
+        <Tabs defaultValue="businesses" className="w-full">
+          <TabsList className="mb-6">
+            <TabsTrigger value="businesses">Businesses</TabsTrigger>
+            <TabsTrigger value="ads">Ad Campaigns</TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="businesses" className="w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {businesses.map((business) => (
+                <BusinessCard
+                  key={business.id}
+                  name={business.name}
+                  description={business.description}
+                  image={business.image}
+                  category={business.category}
+                  location={business.location}
+                  rating={business.rating}
+                  featured={business.featured}
+                />
+              ))}
+            </div>
+          </TabsContent>
+          
+          <TabsContent value="ads" className="w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {advertisements.map((ad) => (
+                <BusinessCard
+                  key={ad.id}
+                  name={ad.name}
+                  description={ad.description}
+                  image={ad.image}
+                  category={ad.category}
+                  location={ad.location}
+                  rating={ad.rating}
+                  isAd={ad.isAd}
+                />
+              ))}
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </section>
   );

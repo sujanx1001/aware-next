@@ -1,5 +1,5 @@
 
-import { Star, MapPin, ExternalLink, Share2, ThumbsUp } from 'lucide-react';
+import { Star, MapPin, ExternalLink, Share2, ThumbsUp, Megaphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -12,6 +12,7 @@ interface BusinessCardProps {
   location: string;
   rating: number;
   featured?: boolean;
+  isAd?: boolean;
 }
 
 const BusinessCard = ({ 
@@ -21,7 +22,8 @@ const BusinessCard = ({
   category, 
   location, 
   rating, 
-  featured = false 
+  featured = false,
+  isAd = false
 }: BusinessCardProps) => {
   
   // Generate stars based on rating
@@ -37,7 +39,7 @@ const BusinessCard = ({
   }
   
   return (
-    <Card className={`overflow-hidden transition-all duration-300 hover:shadow-lg ${featured ? 'border-accent/30' : ''}`}>
+    <Card className={`overflow-hidden transition-all duration-300 hover:shadow-lg ${featured ? 'border-accent/30' : ''} ${isAd ? 'border-brand-purple/30' : ''}`}>
       <div className="relative aspect-video w-full">
         <img 
           src={image} 
@@ -51,6 +53,14 @@ const BusinessCard = ({
           <div className="absolute top-3 right-3">
             <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
               Featured
+            </Badge>
+          </div>
+        )}
+        {isAd && (
+          <div className="absolute top-3 right-3">
+            <Badge variant="outline" className="bg-brand-purple/10 text-brand-purple border-brand-purple/30 backdrop-blur-sm flex items-center gap-1">
+              <Megaphone size={12} />
+              Sponsored
             </Badge>
           </div>
         )}

@@ -1,4 +1,3 @@
-
 import { Low } from 'lowdb';
 import { JSONFile } from 'lowdb/node';
 
@@ -28,20 +27,35 @@ export interface Business {
   createdAt: string;
 }
 
+export interface AdCampaign {
+  id: string;
+  name: string;
+  description: string;
+  imageUrl: string;
+  owner: string;
+  category: string;
+  location: string;
+  duration: string;
+  startDate: string;
+  approved: boolean;
+  createdAt: string;
+}
+
 export interface User {
   id: string;
   name: string;
   email: string;
-  password?: string; // Added password field
+  password?: string;
   role: 'user' | 'business' | 'admin';
   createdAt: string;
-  avatar?: string; // Added avatar field
-  socialProvider?: 'google' | 'facebook' | null; // Added social provider field
+  avatar?: string;
+  socialProvider?: 'google' | 'facebook' | null;
 }
 
 export interface Database {
   causes: Cause[];
   businesses: Business[];
+  adCampaigns: AdCampaign[];
   users: User[];
 }
 
@@ -120,12 +134,40 @@ const defaultData: Database = {
       createdAt: '2023-05-18T15:45:00Z'
     }
   ],
+  adCampaigns: [
+    {
+      id: '1',
+      name: 'Summer Sale Event',
+      description: 'Join us for our biggest sale of the year with special discounts on all eco-friendly products.',
+      imageUrl: 'https://images.unsplash.com/photo-1607348585099-d0261ae7dc5f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      owner: 'Eco Designs',
+      category: 'Home & Design',
+      location: 'Sydney, NSW',
+      duration: '30 days',
+      startDate: '2023-05-01T00:00:00Z',
+      approved: true,
+      createdAt: '2023-04-25T11:30:00Z'
+    },
+    {
+      id: '2',
+      name: 'New Wellness Workshop Series',
+      description: 'Weekly workshops on mindfulness, yoga, and holistic health practices. First session free!',
+      imageUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+      owner: 'Mindful Yoga Studio',
+      category: 'Health & Wellness',
+      location: 'Brisbane, QLD',
+      duration: '60 days',
+      startDate: '2023-06-01T00:00:00Z',
+      approved: true,
+      createdAt: '2023-05-20T15:45:00Z'
+    }
+  ],
   users: [
     {
       id: '1',
       name: 'Admin User',
       email: 'admin@acs.com',
-      password: 'admin123', // Added password for admin
+      password: 'admin123',
       role: 'admin',
       createdAt: '2023-01-01T00:00:00Z'
     },
@@ -133,7 +175,7 @@ const defaultData: Database = {
       id: '2',
       name: 'John Doe',
       email: 'john@example.com',
-      password: 'password123', // Added password for user
+      password: 'password123',
       role: 'user',
       createdAt: '2023-02-15T10:30:00Z'
     },
@@ -141,7 +183,7 @@ const defaultData: Database = {
       id: '3',
       name: 'Sarah Johnson',
       email: 'sarah@greenleafcafe.com',
-      password: 'business123', // Added password for business
+      password: 'business123',
       role: 'business',
       createdAt: '2023-03-20T09:00:00Z'
     }
@@ -167,9 +209,8 @@ class MemoryStorage {
 }
 
 // Create database instance
-// The key fix: Pass the defaultData to the Low constructor instead of creating an adapter without it
 const adapter = new MemoryStorage(defaultData);
-export const db = new Low<Database>(adapter, defaultData);  // Added the defaultData as second parameter
+export const db = new Low<Database>(adapter, defaultData);
 
 // Database helper functions
 export async function getCauses() {
@@ -190,6 +231,16 @@ export async function getBusinesses() {
 export async function getBusinessById(id: string) {
   await db.read();
   return db.data?.businesses.find(business => business.id === id);
+}
+
+export async function getAdCampaigns() {
+  await db.read();
+  return db.data?.adCampaigns || [];
+}
+
+export async function getAdCampaignById(id: string) {
+  await db.read();
+  return db.data?.adCampaigns.find(campaign => campaign.id === id);
 }
 
 export async function getUsers() {
