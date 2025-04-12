@@ -33,9 +33,10 @@ import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/contexts/AuthContext';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '@/lib/db';
-import { Loader, Image as ImageIcon } from 'lucide-react';
+import { Loader, Image as ImageIcon, AlertCircle } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const formSchema = z.object({
   title: z.string().min(5, "Title must be at least 5 characters"),
@@ -101,8 +102,8 @@ const CampaignCreate = () => {
       await db.write();
       
       toast({
-        title: "Campaign submitted",
-        description: "Your campaign has been submitted for approval",
+        title: "Campaign submitted for approval",
+        description: "Your campaign will be reviewed by our administrators before it goes live.",
       });
       
       navigate("/dashboard");
@@ -152,6 +153,15 @@ const CampaignCreate = () => {
               Share your cause with the world and gather support from like-minded individuals.
             </p>
           </div>
+          
+          <Alert className="mb-6 border-brand-teal/30 bg-brand-teal/10">
+            <AlertCircle className="h-4 w-4 text-brand-teal" />
+            <AlertTitle className="text-brand-teal">Approval Required</AlertTitle>
+            <AlertDescription>
+              All new campaigns require administrator approval before they become visible to the public.
+              The review process typically takes 1-2 business days.
+            </AlertDescription>
+          </Alert>
           
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -265,7 +275,7 @@ const CampaignCreate = () => {
                       Submitting...
                     </>
                   ) : (
-                    "Submit Campaign"
+                    "Submit for Approval"
                   )}
                 </Button>
               </div>
@@ -274,11 +284,35 @@ const CampaignCreate = () => {
           
           <div className="mt-12 border-t pt-6">
             <h3 className="text-lg font-medium mb-2">What happens next?</h3>
-            <p className="text-muted-foreground">
-              Once submitted, your campaign will be reviewed by our administrators. 
-              This process typically takes 1-2 business days. After approval, your 
-              campaign will be visible to all users on our platform.
-            </p>
+            <div className="space-y-4">
+              <div className="flex gap-3 items-start">
+                <div className="bg-brand-teal/20 text-brand-teal rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0">1</div>
+                <div>
+                  <h4 className="font-medium">Review Process</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Our administrators will review your campaign to ensure it meets our community guidelines.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start">
+                <div className="bg-brand-teal/20 text-brand-teal rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0">2</div>
+                <div>
+                  <h4 className="font-medium">Approval Notification</h4>
+                  <p className="text-sm text-muted-foreground">
+                    You'll receive an email notification when your campaign is approved or if additional information is needed.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-3 items-start">
+                <div className="bg-brand-teal/20 text-brand-teal rounded-full h-6 w-6 flex items-center justify-center flex-shrink-0">3</div>
+                <div>
+                  <h4 className="font-medium">Go Live</h4>
+                  <p className="text-sm text-muted-foreground">
+                    Once approved, your campaign will be visible to all users on our platform.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>

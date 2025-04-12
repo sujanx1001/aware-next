@@ -1,4 +1,3 @@
-
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
@@ -32,6 +31,9 @@ const Hero = () => {
                   Join a Campaign
                 </Link>
               </Button>
+            </div>
+            <div className="text-sm text-muted-foreground mt-2">
+              <p>* Creating a campaign requires admin approval before it goes live</p>
             </div>
           </div>
           <div className="flex items-center justify-center">

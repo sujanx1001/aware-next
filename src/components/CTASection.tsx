@@ -1,6 +1,6 @@
-
 import { ArrowRight, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const CTASection = () => {
   return (
@@ -19,15 +19,22 @@ const CTASection = () => {
                 our platform gives you the tools to connect with a community that cares.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
-                <Button className="cause-gradient border-0 text-white flex items-center">
-                  <PlusCircle className="mr-2 h-4 w-4" />
-                  Create a Cause
+                <Button className="cause-gradient border-0 text-white flex items-center" asChild>
+                  <Link to="/campaigns/create">
+                    <PlusCircle className="mr-2 h-4 w-4" />
+                    Create a Cause
+                  </Link>
                 </Button>
-                <Button variant="outline" className="border-brand-orange/30 text-brand-orange hover:text-brand-orange/80 hover:bg-brand-orange/5">
-                  Add Your Business
-                  <ArrowRight className="ml-2 h-4 w-4" />
+                <Button variant="outline" className="border-brand-orange/30 text-brand-orange hover:text-brand-orange/80 hover:bg-brand-orange/5" asChild>
+                  <Link to="/business/promote">
+                    Add Your Business
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
+              <p className="text-xs text-muted-foreground mt-4">
+                * All new campaigns require admin approval before they go live on the platform
+              </p>
             </div>
             <div className="hidden md:block">
               <div className="relative">
