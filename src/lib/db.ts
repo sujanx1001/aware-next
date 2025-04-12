@@ -32,8 +32,11 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  password?: string; // Added password field
   role: 'user' | 'business' | 'admin';
   createdAt: string;
+  avatar?: string; // Added avatar field
+  socialProvider?: 'google' | 'facebook' | null; // Added social provider field
 }
 
 export interface Database {
@@ -122,6 +125,7 @@ const defaultData: Database = {
       id: '1',
       name: 'Admin User',
       email: 'admin@acs.com',
+      password: 'admin123', // Added password for admin
       role: 'admin',
       createdAt: '2023-01-01T00:00:00Z'
     },
@@ -129,6 +133,7 @@ const defaultData: Database = {
       id: '2',
       name: 'John Doe',
       email: 'john@example.com',
+      password: 'password123', // Added password for user
       role: 'user',
       createdAt: '2023-02-15T10:30:00Z'
     },
@@ -136,6 +141,7 @@ const defaultData: Database = {
       id: '3',
       name: 'Sarah Johnson',
       email: 'sarah@greenleafcafe.com',
+      password: 'business123', // Added password for business
       role: 'business',
       createdAt: '2023-03-20T09:00:00Z'
     }

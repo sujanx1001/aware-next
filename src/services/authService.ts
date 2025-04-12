@@ -5,20 +5,26 @@ import { v4 as uuidv4 } from 'uuid';
 // Simple authentication service
 export const authService = {
   async login(email: string, password: string) {
-    // In a real app, you would validate the password here
-    // For this prototype, we'll just check if the user exists
+    // Get user by email
     const user = await getUserByEmail(email);
     
     if (!user) {
       throw new Error('Invalid credentials');
     }
     
+    // Check password (in a real app, you'd use bcrypt to compare hashed passwords)
+    if (user.password && user.password !== password) {
+      throw new Error('Invalid credentials');
+    }
+    
     // Store user info in localStorage
     localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('authToken', `fake-jwt-token-${user.id}`); // Simple fake JWT token
+    
     return user;
   },
   
-  async register(name: string, email: string, role: 'user' | 'business' = 'user') {
+  async register(name: string, email: string, password: string, role: 'user' | 'business' = 'user') {
     // Check if user already exists
     const existingUser = await getUserByEmail(email);
     
@@ -31,6 +37,7 @@ export const authService = {
       id: uuidv4(),
       name,
       email,
+      password,
       role,
       createdAt: new Date().toISOString()
     };
@@ -42,11 +49,43 @@ export const authService = {
     
     // Store user info in localStorage
     localStorage.setItem('currentUser', JSON.stringify(newUser));
+    localStorage.setItem('authToken', `fake-jwt-token-${newUser.id}`); // Simple fake JWT token
+    
     return newUser;
+  },
+  
+  async socialLogin(provider: 'google' | 'facebook', userData: { name: string, email: string, avatar?: string }) {
+    // Check if user already exists
+    let user = await getUserByEmail(userData.email);
+    
+    if (!user) {
+      // Create new user if not exists
+      user = {
+        id: uuidv4(),
+        name: userData.name,
+        email: userData.email,
+        role: 'user',
+        avatar: userData.avatar,
+        socialProvider: provider,
+        createdAt: new Date().toISOString()
+      };
+      
+      // Add user to database
+      await db.read();
+      db.data!.users.push(user);
+      await db.write();
+    }
+    
+    // Store user info in localStorage
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    localStorage.setItem('authToken', `fake-jwt-token-${user.id}`);
+    
+    return user;
   },
   
   logout() {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('authToken');
   },
   
   getCurrentUser() {
@@ -55,8 +94,12 @@ export const authService = {
     return JSON.parse(userJson) as User;
   },
   
+  getToken() {
+    return localStorage.getItem('authToken');
+  },
+  
   isLoggedIn() {
-    return !!this.getCurrentUser();
+    return !!this.getCurrentUser() && !!this.getToken();
   },
   
   isAdmin() {
